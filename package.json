@@ -1,0 +1,26 @@
+{
+  "name": "hapi-mount",
+  "version": "1.0.0-1",
+  "description": "Mount directories containing your routes, etc. into your hapi server",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "homepage": "https://github.com/seangenabe/hapi-mount",
+  "author": "Sean Genabe <seangenabe@outlook.com>",
+  "repository": "seangenabe/hapi-mount",
+  "license": "MIT",
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "main": "index.js",
+  "keywords": [
+    "hapi",
+    "require",
+    "route",
+    "method"
+  ],
+  "dependencies": {
+    "hoek": "^3.0.0",
+    "require-glob-array": "^1.0.0"
+  }
+}
