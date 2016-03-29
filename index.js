@@ -26,7 +26,6 @@ module.exports = function hapiMount(server, options, next) {
 }
 
 function getModules(cwd, childpath, patterns) {
-  debugger
   let path = Path.join(cwd, childpath)
   let opts = { cwd: path }
   let objects
