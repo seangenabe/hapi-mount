@@ -42,7 +42,7 @@ function getModules(cwd, childpath, patterns) {
   }
   objects = Hoek.flatten(objects)
   objects = objects.filter(function(obj) {
-    if (typeof obj === 'object' && Object.keys(obj) === 0) {
+    if (typeof obj === 'object' && Object.keys(obj).length === 0) {
       return false
     }
     return true
