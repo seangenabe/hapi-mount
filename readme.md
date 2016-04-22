@@ -77,6 +77,7 @@ server.register(
 * `routes: string`: Name of the routes directory. Defaults to `routes`.
 * `methods: string`: Name of the methods directory. Defaults to `methods`.
 * `ext: string`: Name of the directory for extension functions. Defaults to `ext`.
+* `bind: any`: Object to bind as the context. (Plugin binds are isolated from the global bind.)
 
 ## Todo
 

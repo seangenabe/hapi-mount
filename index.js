@@ -12,8 +12,13 @@ module.exports = function hapiMount(server, options, next) {
 
     let ext = getModules(cwd, options.ext || 'ext')
     let methods = getModules(cwd, options.methods || 'methods')
-    let routes = getModules(cwd, options.routes || 'routes', '**/*.js')
+    let routes = getModules(
+      cwd,
+      options.routes || 'routes',
+      '**/{get,post,put,delete,trace,options,connect,patch}.js'
+    )
 
+    if (options.bind) { server.bind(options.bind) }
     server.ext(ext)
     server.method(methods)
     server.route(routes)
