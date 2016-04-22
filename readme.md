@@ -58,6 +58,8 @@ module.exports = {
 }
 ```
 
+Note: Modules with empty exports will be excluded. This is to avoid errors in development, e.g. when creating a new blank file. (Hapi will emit an error anyway for these files since they don't match the schema.)
+
 ### General usage
 
 ```javascript
