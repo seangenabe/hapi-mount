@@ -20,7 +20,7 @@
     "method"
   ],
   "dependencies": {
-    "hoek": "^3.0.0",
+    "hoek": "^4.0.0",
     "require-glob-array": "^1.1.2"
   },
   "devDependencies": {
