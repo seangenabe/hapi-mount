@@ -1,6 +1,6 @@
 {
   "name": "hapi-mount",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Mount directories containing your routes, etc. into your hapi server",
   "scripts": {
     "test": "tap -c test/test.js"
