@@ -24,7 +24,7 @@
     "require-glob-array": "^2.0.0"
   },
   "devDependencies": {
-    "hapi": "^13.3.0",
+    "hapi": "^13.5.0",
     "tap": "^6.1.1"
   }
 }
