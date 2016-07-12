@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Mount directories containing your routes, etc. into your hapi server",
   "scripts": {
-    "test": "tap -c test/test.js"
+    "test": "babel test/test-src.js -o test/test.js && tap -c test/test.js"
   },
   "homepage": "https://github.com/seangenabe/hapi-mount",
   "author": "Sean Genabe <seangenabe@outlook.com>",
@@ -20,11 +20,20 @@
     "method"
   ],
   "dependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
     "hoek": "^4.0.0",
     "require-glob-array": "^2.0.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-register": "^6.9.0",
     "hapi": "^13.3.0",
     "tap": "^5.7.1"
+  },
+  "babel": {
+    "plugins": [
+      "transform-async-to-generator"
+    ]
   }
 }
