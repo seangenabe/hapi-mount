@@ -2,63 +2,120 @@ const pkg = require('../package')
 const Path = require('path')
 const req = require('require-glob-array')
 const Hoek = require('hoek')
+const camelCase = require('lodash.camelcase')
 
 const HTTP_VERBS = new Set([
   'get', 'post', 'put', 'delete', 'trace', 'options', 'connect', 'patch'
 ])
+const HAPI_EXT_POINTS = new Set([
+  'onRequest',
+  'onPreAuth',
+  'onPostAuth',
+  'onPreHandler',
+  'onPostHandler',
+  'onPreResponse',
+  'onPreStart',
+  'onPostStart',
+  'onPreStop',
+  'onPostStop'
+])
 
-module.exports = async function hapiMount(server, options, next) {
-  try {
-    options = options || {}
-    let cwd = options.cwd || process.cwd()
+module.exports = function hapiMount(server, options, next) {
+  // Guard against returning a Promise, for forward-compatibility.
+  (async () => {
+    try {
+      options = options || {}
+      let cwd = options.cwd || process.cwd()
 
-    let [ext, methods, routes] = await Promise.all([
-      getModules(cwd, options.ext || 'ext'),
-      getModules(cwd, options.methods || 'methods'),
-      getModules(
-        cwd,
-        options.routes || 'routes',
-        '**/{get,post,put,delete,trace,options,connect,patch}.js'
-      )
-    ])
+      let [ext, methods, routes] = await Promise.all([
+        getModules(cwd, options.ext || 'ext'),
+        getModules(cwd, options.methods || 'methods'),
+        getModules(
+          cwd,
+          options.routes || 'routes',
+          '**/{get,post,put,delete,trace,options,connect,patch}.js'
+        )
+      ])
 
-    ext = ext.map(([path, mod]) => {
-      mod = [].concat(mod)
-      return [path, mod]
-    })
-
-    methods = methods.map(([path, mod]) => {
-      mod = [].concat(mod)
-      return [path, mod]
-    })
-
-    // Auto-routes
-    routes = routes.map(([path, mod]) => {
-      mod = [].concat(mod).map(route => {
-        if (typeof route !== 'object') { return route }
-
-        if (!route.method) {
-          route.method = Path.basename(path, '.js').toUpperCase()
-        }
-        if (!route.path) {
-          route.path = `/${Path.dirname(path)}`
-        }
-        return route
+      // Auto ext
+      ext = entityDefaults(ext, {
+        funcKey: 'method',
+        validBasenames: HAPI_EXT_POINTS,
+        basenameKey: 'type'
       })
-      return [path, mod]
+
+      methods = methods.map(([path, mod]) => {
+        mod = [].concat(mod)
+        return [path, mod]
+      })
+
+      // Auto methods
+      methods = entityDefaults(methods, {
+        funcKey: 'method',
+        basenameKey: 'name',
+        postFunc(methodDefinition) {
+          methodDefinition.options = { callback: false }
+        }
+      })
+
+      // Auto routes
+      routes = entityDefaults(routes, {
+        funcKey: 'handler',
+        validBasenames: HTTP_VERBS,
+        basenameKey: 'method',
+        pathFunc(route, path) {
+          let dirname = Path.dirname(path)
+          if (dirname === '.') {
+            dirname = ''
+          }
+          route.path = `/${dirname}`
+        }
+      })
+
+      if (options.bind) { server.bind(options.bind) }
+
+      server.ext(getAndFlattenModules(ext))
+      server.method(getAndFlattenModules(methods))
+      server.route(getAndFlattenModules(routes))
+
+      next()
+    }
+    catch (err) {
+      next(err)
+    }
+  })()
+}
+
+function entityDefaults(modules, opts) {
+  let {
+    funcKey = 'method',
+    postFunc = noop,
+    validBasenames,
+    basenameKey,
+    pathFunc = noop
+  } = opts
+  return modules.map(([path, mod]) => {
+    mod = [].concat(mod).map(entity => {
+      if (typeof entity === 'function') {
+        entity = { [funcKey]: entity }
+        postFunc(entity)
+      }
+      if (typeof entity !== 'object') { return entity }
+
+      if (!entity[basenameKey]) {
+        let basenameValue = Path.basename(path, '.js')
+        let basenameValueCamel = camelCase(basenameValue)
+        if (!validBasenames || validBasenames.has(basenameValueCamel)) {
+          entity[basenameKey] = basenameValueCamel
+        }
+      }
+
+      pathFunc(entity, path)
+
+      return entity
     })
-
-    if (options.bind) { server.bind(options.bind) }
-
-    server.ext(getAndFlattenModules(ext))
-    server.method(getAndFlattenModules(methods))
-    server.route(getAndFlattenModules(routes))
-
-    next()
-  }
-  catch (err) {
-    next(err)
-  }
+    return [path, mod]
+  })
 }
 
 function getAndFlattenModules(items) {
@@ -93,3 +150,5 @@ module.exports.attributes = {
 function isPlainObject(obj) {
   return obj.constructor === Object
 }
+
+function noop() {}

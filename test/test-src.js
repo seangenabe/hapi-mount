@@ -9,16 +9,35 @@ const server = new Hapi.Server()
 const server2 = new Hapi.Server()
 const server3 = new Hapi.Server()
 
-t.test("basic functionality", async t => {
-  server.connection()
-  await server.register({
-    register: HapiMount,
-    options: { cwd: `${__dirname}/fixture1` }
-  })
+t.test('require relative', async t => {
+  try {
+    const server = new Hapi.Server()
+    server.connection()
+    await server.register({
+      register: HapiMount,
+      options: { cwd: './test/fixture1' }
+    })
+  }
+  catch (err) {
+    t.threw(err)
+  }
+})
 
-  t.equals((await server.inject('/')).payload, 'hello')
-  t.equals(await server.methods.getCat(), 'meow', "method")
-  t.equals((await server.inject('/dog')).payload, 'woof')
+t.test("basic functionality", async t => {
+  try {
+    server.connection()
+    await server.register({
+      register: HapiMount,
+      options: { cwd: `${__dirname}/fixture1` }
+    })
+    
+    t.equals((await server.inject('/')).payload, 'hello')
+    t.equals(await server.methods.getCat(), 'meow', "method")
+    t.equals((await server.inject('/dog')).payload, 'woof')
+  }
+  catch (err) {
+    t.threw(err)
+  }
 })
 
 t.test("error", async t => {
@@ -28,7 +47,7 @@ t.test("error", async t => {
       register: HapiMount,
       options: { cwd: `${__dirname}/fixture2` }
     })
-    t.ok(false)
+    t.fail()
   }
   catch (err) {
     t.ok(err instanceof req.RequireError)

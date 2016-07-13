@@ -1,7 +1,3 @@
 'use strict'
 
-module.exports = {
-  handler(request, reply) {
-    reply('quack')
-  }
-}
+module.exports = (request, reply) => reply('quack')

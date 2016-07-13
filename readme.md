@@ -81,17 +81,35 @@ server.register(
 * `ext: string`: Name of the directory for extension functions. Defaults to `ext`.
 * `bind: any`: Object to bind as the context. (Plugin binds are isolated from the global bind.)
 
+### Single-level array
+
+You can export a single-level array containing the objects you want, in a single module.
+
 ### Path defaults
 
 #### Routes
 
+If the route object is a function, it will be transformed into the handler (`handler`) for the route.
+
 If you use the format described above for specifying routes, the `path` and `method` will default to the path `dirname` and `basename`, respectively. For example, a file at `foo/bar/get.js` will default all of its exported objects with `{ path: '/foo/bar', method: 'GET' }`.
+
+#### ext
+
+If the ext object is a function, it will be transformed into the `method` property for the ext object.
+
+If you use the kebab case version of a valid Hapi extension point as the filename, the `type` will default to that extension point. For example, a file at `on-pre-response.js` will default to `{ type: 'onPreResponse' }`.
+
+#### Methods
+
+If the method object is a function, it will be transformed into the `method` property for the method object. `options.callback` will also default to `false` to make it possible to declare `Promise`-returning functions. (This is just a personal preference *against* callbacks.)
+
+If you don't specify the `name` for the method, the name will default to the camel case version of the basename of the file. For example, a file at `get-database.js` will default to `{ name: 'getDatabase' }`
 
 ## See also
 
 Oops. Looks like modules of this kind have been done already. Here they are for reference:
 * [hapi-methods-injection](https://github.com/amgohan/hapi-methods-injection) (Not quite sure here.)
-* [hapi-router](https://github.com/bsiddiqui/hapi-router) (Yep. We're a total rip-off! Hey, we have slightly more features though! I think.)
+* [hapi-router](https://github.com/bsiddiqui/hapi-router) (We definitely have more features than them now.)
 
 ## License
 
