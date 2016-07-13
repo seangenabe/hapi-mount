@@ -81,6 +81,12 @@ server.register(
 * `ext: string`: Name of the directory for extension functions. Defaults to `ext`.
 * `bind: any`: Object to bind as the context. (Plugin binds are isolated from the global bind.)
 
+### Path defaults
+
+#### Routes
+
+If you use the format described above for specifying routes, the `path` and `method` will default to the path `dirname` and `basename`, respectively. For example, a file at `foo/bar/get.js` will default all of its exported objects with `{ path: '/foo/bar', method: 'GET' }`.
+
 ## See also
 
 Oops. Looks like modules of this kind have been done already. Here they are for reference:

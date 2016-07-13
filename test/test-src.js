@@ -16,12 +16,10 @@ t.test("basic functionality", async t => {
     options: { cwd: `${__dirname}/fixture1` }
   })
 
-  t.equals((await server.inject('/')).payload, 'hello', "ext")
+  t.equals((await server.inject('/')).payload, 'hello')
   t.equals(await server.methods.getCat(), 'meow', "method")
-  t.equals((await server.inject('/dog')).payload, 'woof', "route")
+  t.equals((await server.inject('/dog')).payload, 'woof')
 })
-
-/*
 
 t.test("error", async t => {
   server2.connection()
@@ -50,11 +48,11 @@ t.test("alternate folders + auto routes", async t => {
     }
   })
 
-  t.equals((await server.inject('/')).payload, 'hello')
-
-  t.equals(await server.methods.getCat() === 'meow')
-
+  t.equals(await server.methods.getCat(), 'meow')
+  t.equals((await server.inject('/dog')).payload, 'woof')
   t.equals((await server.inject('/auto')).payload, 'quack')
+  t.equals(
+    (await server.inject({ method: 'DELETE', url: '/auto'})).payload,
+    'neigh'
+  )
 })
-
-*/
