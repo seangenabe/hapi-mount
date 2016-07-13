@@ -2,4 +2,3 @@ node_modules/
 *.log
 *.log.*
 test/test.js
-dist

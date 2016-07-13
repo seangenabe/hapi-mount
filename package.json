@@ -3,7 +3,10 @@
   "version": "2.0.0",
   "description": "Mount directories containing your routes, etc. into your hapi server",
   "scripts": {
-    "test": "babel test/test-src.js -o test/test.js && tap -c test/test.js"
+    "compile": "babel src -d dist",
+    "compile:test": "babel test/test-src.js -o test/test.js",
+    "test": "npm run compile && npm run compile:test && tap -c test/test.js",
+    "test:babel": "babel-node test/test-src.js src/index.js"
   },
   "homepage": "https://github.com/seangenabe/hapi-mount",
   "author": "Sean Genabe <seangenabe@outlook.com>",
@@ -12,7 +15,7 @@
   "engines": {
     "node": ">=4.0.0"
   },
-  "main": "index.js",
+  "main": "dist/index.js",
   "keywords": [
     "hapi",
     "require",
@@ -22,11 +25,14 @@
   "dependencies": {
     "babel-cli": "^6.10.1",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-plugin-transform-es2015-destructuring": "^6.9.0",
     "hoek": "^4.0.0",
-    "require-glob-array": "^2.0.0"
+    "require-glob-array": "^2.1.2"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
+    "babel-plugin-transform-es2015-parameters": "^6.9.0",
+    "babel-plugin-transform-strict-mode": "^6.8.0",
     "babel-register": "^6.9.0",
     "hapi": "^13.3.0",
     "tap": "^5.7.1"

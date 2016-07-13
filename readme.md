@@ -58,7 +58,7 @@ module.exports = {
 }
 ```
 
-Note: Modules with empty exports will be excluded. This is to avoid errors in development, e.g. when creating a new blank file. (Hapi will emit an error anyway for these files since they don't match the schema.)
+Note: Modules with empty exports will be excluded. This is to avoid errors in development, e.g. when creating a new blank file. (Hapi will emit an error anyway for these files since they don't match the schema.) Modules that export `null` or `undefined` will also be excluded.
 
 ### General usage
 
@@ -80,10 +80,6 @@ server.register(
 * `methods: string`: Name of the methods directory. Defaults to `methods`.
 * `ext: string`: Name of the directory for extension functions. Defaults to `ext`.
 * `bind: any`: Object to bind as the context. (Plugin binds are isolated from the global bind.)
-
-## Todo
-
-* Tests
 
 ## See also
 
