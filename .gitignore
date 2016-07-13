@@ -2,4 +2,6 @@ node_modules/
 *.log
 *.log.*
 test/test.js
+.nyc_output
+coverage
 dist
