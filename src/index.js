@@ -20,37 +20,35 @@ const HAPI_EXT_POINTS = new Set([
   'onPostStop'
 ])
 
-module.exports = function hapiMount(server, options, next) {
+module.exports = function hapiMount(
+  server,
+  {
+    cwd = '.',
+    ext = 'ext',
+    methods = 'methods',
+    routes = 'routes',
+    bind,
+    bindToRoot
+  } = {}, next) {
   // Guard against returning a Promise, for forward-compatibility.
   (async () => {
     try {
-      options = options || {}
-      let cwd = options.cwd || process.cwd()
-
-      let [ext, methods, routes] = await Promise.all([
-        getModules(cwd, options.ext || 'ext'),
-        getModules(cwd, options.methods || 'methods'),
-        getModules(
-          cwd,
-          options.routes || 'routes',
-          '**/{get,post,put,delete,trace,options,connect,patch}.js'
-        )
+      let [extArray, methodsArray, routesArray] = await Promise.all([
+        getModules(cwd, ext),
+        getModules(cwd, methods),
+        getModules(cwd, routes,
+          '**/{get,post,put,delete,trace,options,connect,patch}.js')
       ])
 
       // Auto ext
-      ext = entityDefaults(ext, {
+      extArray = entityDefaults(extArray, {
         funcKey: 'method',
         validBasenames: HAPI_EXT_POINTS,
         basenameKey: 'type'
       })
 
-      methods = methods.map(([path, mod]) => {
-        mod = [].concat(mod)
-        return [path, mod]
-      })
-
       // Auto methods
-      methods = entityDefaults(methods, {
+      methodsArray = entityDefaults(methodsArray, {
         funcKey: 'method',
         basenameKey: 'name',
         postFunc(methodDefinition) {
@@ -59,7 +57,7 @@ module.exports = function hapiMount(server, options, next) {
       })
 
       // Auto routes
-      routes = entityDefaults(routes, {
+      routesArray = entityDefaults(routesArray, {
         funcKey: 'handler',
         validBasenames: HTTP_VERBS,
         basenameKey: 'method',
@@ -72,11 +70,16 @@ module.exports = function hapiMount(server, options, next) {
         }
       })
 
-      if (options.bind) { server.bind(options.bind) }
+      if (bindToRoot) {
+        server.bind(server.root.realm.settings.bind)
+      }
+      else if (bind) {
+        server.bind(bind)
+      }
 
-      server.ext(getAndFlattenModules(ext))
-      server.method(getAndFlattenModules(methods))
-      server.route(getAndFlattenModules(routes))
+      server.ext(getAndFlattenModules(extArray))
+      server.method(getAndFlattenModules(methodsArray))
+      server.route(getAndFlattenModules(routesArray))
 
       next()
     }
@@ -123,7 +126,7 @@ function getAndFlattenModules(items) {
 }
 
 async function getModules(cwd, childpath, patterns) {
-  let path = Path.join(cwd, childpath)
+  let path = Path.resolve(cwd, childpath)
   let opts = { cwd: path, returnPath: true }
   let modules
   if (patterns) {

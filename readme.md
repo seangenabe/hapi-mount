@@ -75,15 +75,12 @@ server.register(
 
 ### Registration options
 
-* `cwd: string`: Main server directory to look for `routes`, `methods`, and `ext`. Defaults to `process.cwd()`.
-* `routes: string`: Name of the routes directory. Defaults to `routes`.
-* `methods: string`: Name of the methods directory. Defaults to `methods`.
-* `ext: string`: Name of the directory for extension functions. Defaults to `ext`.
-* `bind: any`: Object to bind as the context. (Plugin binds are isolated from the global bind.)
-
-### Single-level array
-
-You can export a single-level array containing the objects you want, in a single module.
+* `cwd: string`: Main server directory to look for `routes`, `methods`, and `ext`. Default: `"."`. This is resolved against the current working directory.
+* `routes: string`: Name of the routes directory. Default: `"routes"`.
+* `methods: string`: Name of the methods directory. Default: `"methods"`.
+* `ext: string`: Name of the directory for extension functions. Default: `"ext"`
+* `bind: object`: Object to bind as the context. (Plugin binds are [isolated](http://hapijs.com/api#serverbindcontext).) Optional.
+* `bindToRoot: boolean`: Bind to `server.root.realm.settings.bind` as the context. This is always the object you set with `server.bind` outside plugins, so be sure to do that first, when using this option, before registration.
 
 ### Path defaults
 
@@ -91,7 +88,7 @@ You can export a single-level array containing the objects you want, in a single
 
 If the route object is a function, it will be transformed into the handler (`handler`) for the route.
 
-If you use the format described above for specifying routes, the `path` and `method` will default to the path `dirname` and `basename`, respectively. For example, a file at `foo/bar/get.js` will default all of its exported objects with `{ path: '/foo/bar', method: 'GET' }`.
+If you use the format described above for specifying routes, the `path` and `method` will default to the path `dirname` and `basename`, respectively. For example, a file at `foo/bar/get.js` will default all of its exported objects with `{ path: '/foo/bar', method: 'get' }`.
 
 #### ext
 
@@ -104,6 +101,10 @@ If you use the kebab case version of a valid Hapi extension point as the filenam
 If the method object is a function, it will be transformed into the `method` property for the method object. `options.callback` will also default to `false` to make it possible to declare `Promise`-returning functions. (This is just a personal preference *against* callbacks.)
 
 If you don't specify the `name` for the method, the name will default to the camel case version of the basename of the file. For example, a file at `get-database.js` will default to `{ name: 'getDatabase' }`
+
+#### All of these are optional!
+
+If this behavior isn't your style, simply specify everything in the schema.
 
 ## See also
 

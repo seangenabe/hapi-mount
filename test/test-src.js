@@ -5,10 +5,6 @@ const Hapi = require('hapi')
 const req = require('require-glob-array')
 const HapiMount = require('..')
 
-const server = new Hapi.Server()
-const server2 = new Hapi.Server()
-const server3 = new Hapi.Server()
-
 t.test('require relative', async t => {
   try {
     const server = new Hapi.Server()
@@ -25,12 +21,13 @@ t.test('require relative', async t => {
 
 t.test("basic functionality", async t => {
   try {
+    const server = new Hapi.Server()
     server.connection()
     await server.register({
       register: HapiMount,
       options: { cwd: `${__dirname}/fixture1` }
     })
-    
+
     t.equals((await server.inject('/')).payload, 'hello')
     t.equals(await server.methods.getCat(), 'meow', "method")
     t.equals((await server.inject('/dog')).payload, 'woof')
@@ -41,9 +38,10 @@ t.test("basic functionality", async t => {
 })
 
 t.test("error", async t => {
-  server2.connection()
+  const server = new Hapi.Server()
+  server.connection()
   try {
-    await server2.register({
+    await server.register({
       register: HapiMount,
       options: { cwd: `${__dirname}/fixture2` }
     })
@@ -55,7 +53,7 @@ t.test("error", async t => {
 })
 
 t.test("alternate folders + auto routes", async t => {
-  let server = server3
+  const server = new Hapi.Server()
   server.connection()
   await server.register({
     register: HapiMount,
@@ -74,4 +72,27 @@ t.test("alternate folders + auto routes", async t => {
     (await server.inject({ method: 'DELETE', url: '/auto'})).payload,
     'neigh'
   )
+})
+
+t.test("bind to object", async t => {
+  let server = new Hapi.Server()
+  server.connection()
+  await server.register({
+    register: HapiMount,
+    options: { cwd: `${__dirname}/fixture1`, bind: { simple: true } }
+  })
+
+  t.equals((await server.inject('/')).payload, 'hi')
+})
+
+t.test("bind to server.realm.settings.bind", async t => {
+  let server = new Hapi.Server()
+  server.bind({ simple: true })
+  server.connection()
+  await server.register({
+    register: HapiMount,
+    options: { cwd: `${__dirname}/fixture1`, bindToRoot: true }
+  })
+
+  t.equals((await server.inject('/')).payload, 'hi')
 })
