@@ -4,6 +4,7 @@ Mount directories containing your routes, etc. into your hapi server
 
 [![npm](https://img.shields.io/npm/v/hapi-mount.svg?style=flat-square)](https://www.npmjs.com/package/hapi-mount)
 [![Build Status](https://img.shields.io/travis/seangenabe/hapi-mount/master.svg?style=flat-square)](https://travis-ci.org/seangenabe/hapi-mount)
+[![Coverage Status](https://img.shields.io/coveralls/seangenabe/hapi-mount/master.svg?style=flat-square)](https://coveralls.io/github/seangenabe/hapi-mount?branch=master)
 [![Dependency Status](https://img.shields.io/david/seangenabe/hapi-mount.svg?style=flat-square)](https://david-dm.org/seangenabe/hapi-mount)
 [![devDependency Status](https://img.shields.io/david/dev/seangenabe/hapi-mount.svg?style=flat-square)](https://david-dm.org/seangenabe/hapi-mount#info=devDependencies)
 [![node](https://img.shields.io/node/v/hapi-mount.svg?style=flat-square)](https://nodejs.org/en/download/)

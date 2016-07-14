@@ -96,3 +96,17 @@ t.test("bind to server.realm.settings.bind", async t => {
 
   t.equals((await server.inject('/')).payload, 'hi')
 })
+
+t.test("error for invalid modules", async t => {
+  let server = new Hapi.Server()
+  server.connection()
+  try {
+    await server.register({
+      register: HapiMount,
+      options: { cwd: `${__dirname}/fixture4` }
+    })
+    t.fail()
+  }
+  catch (err) {
+  }
+})
