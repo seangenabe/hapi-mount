@@ -5,8 +5,10 @@
   "scripts": {
     "compile": "babel src -d dist",
     "compile:test": "babel test/test-src.js -o test/test.js",
-    "test": "npm run compile && npm run compile:test && tap -c test/test.js",
-    "test:babel": "babel-node test/test-src.js src/index.js"
+    "pretest": "cross-env BABEL_ENV=test npm run compile && npm run compile:test",
+    "test": "tap -c test/test.js",
+    "test:babel": "babel-node test/test-src.js src/index.js",
+    "prepublish": "npm run compile"
   },
   "homepage": "https://github.com/seangenabe/hapi-mount",
   "author": "Sean Genabe <seangenabe@outlook.com>",
@@ -29,11 +31,16 @@
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
+    "babel-plugin-istanbul": "^1.0.3",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
     "babel-plugin-transform-es2015-destructuring": "^6.9.0",
     "babel-plugin-transform-es2015-parameters": "^6.11.3",
     "babel-plugin-transform-strict-mode": "^6.11.3",
     "hapi": "^13.5.0",
     "tap": "^6.1.1"
+  },
+  "nyc": {
+    "sourceMaps": false,
+    "instrument": false
   }
 }

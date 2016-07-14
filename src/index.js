@@ -29,7 +29,7 @@ module.exports = function hapiMount(
     routes = 'routes',
     bind,
     bindToRoot
-  } = {}, next) {
+  }, next) {
   // Guard against returning a Promise, for forward-compatibility.
   (async () => {
     try {
@@ -91,7 +91,7 @@ module.exports = function hapiMount(
 
 function entityDefaults(modules, opts) {
   let {
-    funcKey = 'method',
+    funcKey,
     postFunc = noop,
     validBasenames,
     basenameKey,
@@ -103,7 +103,9 @@ function entityDefaults(modules, opts) {
         entity = { [funcKey]: entity }
         postFunc(entity)
       }
-      if (typeof entity !== 'object') { return entity }
+      if (typeof entity !== 'object') {
+        return entity
+      }
 
       if (!entity[basenameKey]) {
         let basenameValue = Path.basename(path, '.js')

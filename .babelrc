@@ -4,5 +4,12 @@
     "transform-es2015-destructuring",
     "transform-es2015-parameters",
     "transform-strict-mode",
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "istanbul"
+      ]
+    }
+  }
 }
