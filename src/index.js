@@ -89,14 +89,16 @@ module.exports = function hapiMount(
   })()
 }
 
-function entityDefaults(modules, opts) {
-  let {
+function entityDefaults(
+  modules,
+  {
     funcKey,
     postFunc = noop,
     validBasenames,
     basenameKey,
     pathFunc = noop
-  } = opts
+  }) {
+
   return modules.map(([path, mod]) => {
     mod = [].concat(mod).map(entity => {
       if (typeof entity === 'function') {
