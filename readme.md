@@ -64,6 +64,10 @@ Note: Modules with empty exports will be excluded. This is to avoid errors in de
 ### General usage
 
 ```javascript
+// server.connection(...)
+
+// Register *after* adding the server connections you want
+// so we can modify those connections.
 server.register(
   {
     register: require('hapi-mount'),
