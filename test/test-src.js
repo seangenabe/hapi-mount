@@ -122,8 +122,18 @@ let parallelTests = [
     })
 
     t.equals((await server.inject('/')).payload, 'hello')
-  })
+  }),
 
+  t.test('should not override route path', async t => {
+    let server = new Hapi.Server()
+    server.connection()
+    await server.register({
+      register: HapiMount,
+      options: { cwd: `${__dirname}/fixture6` }
+    })
+
+    t.equals((await server.inject('/b')).payload, 'b')
+  })
 ]
 
 ;(async function() {

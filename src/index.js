@@ -62,6 +62,7 @@ module.exports = function hapiMount(
         validBasenames: HTTP_VERBS,
         basenameKey: 'method',
         pathFunc(route, path) {
+          if (route.path) { return }
           let dirname = Path.dirname(path)
           if (dirname === '.') {
             dirname = ''
