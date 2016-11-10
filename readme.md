@@ -116,7 +116,3 @@ If this behavior isn't your style, simply specify everything in the schema.
 Oops. Looks like modules of this kind have been done already. Here they are for reference:
 * [hapi-methods-injection](https://github.com/amgohan/hapi-methods-injection) (Not quite sure here.)
 * [hapi-router](https://github.com/bsiddiqui/hapi-router) (We definitely have more features than them now.)
-
-## License
-
-MIT
