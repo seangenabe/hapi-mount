@@ -1,5 +1,7 @@
 # hapi-mount
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/seangenabe/hapi-mount.svg)](https://greenkeeper.io/)
+
 Mount directories containing your routes, etc. into your hapi server
 
 [![npm](https://img.shields.io/npm/v/hapi-mount.svg?style=flat-square)](https://www.npmjs.com/package/hapi-mount)
