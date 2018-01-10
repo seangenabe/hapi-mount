@@ -1,8 +1,7 @@
 {
   "name": "hapi-mount",
   "version": "4.0.1",
-  "description":
-    "Mount directories containing your routes, etc. into your hapi server",
+  "description": "Mount directories containing your routes, etc. into your hapi server",
   "scripts": {
     "test": "nyc ava",
     "ava": "ava",
@@ -17,10 +16,15 @@
     "node": ">=6.0.0"
   },
   "main": "index.js",
-  "keywords": ["hapi", "require", "route", "method"],
+  "keywords": [
+    "hapi",
+    "require",
+    "route",
+    "method"
+  ],
   "dependencies": {
     "hoek": "^5.0.2",
-    "lodash.camelcase": "^4.1.1",
+    "lodash.camelcase": "^4.3.0",
     "require-glob-array": "^4.0.0"
   },
   "devDependencies": {
@@ -35,7 +39,11 @@
     "hapi": ">=17"
   },
   "ava": {
-    "files": ["test/test.js"],
-    "source": ["index.js"]
+    "files": [
+      "test/test.js"
+    ],
+    "source": [
+      "index.js"
+    ]
   }
 }

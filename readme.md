@@ -125,6 +125,7 @@ If this behavior isn't your style, simply specify everything in the schema.
 ## Versions
 
 * `<=4` - hapi v16 compatible
+* `>=5` - hapi v17 compatible
 
 ## See also
 
