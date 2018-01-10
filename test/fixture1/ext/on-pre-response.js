@@ -2,10 +2,10 @@
 
 module.exports = {
   type: 'onPreResponse',
-  method(request, reply) {
+  async method(request, h) {
     if (request.path === '/dog') {
-      return reply('woof')
+      return 'woof'
     }
-    reply.continue()
+    return h.continue
   }
 }

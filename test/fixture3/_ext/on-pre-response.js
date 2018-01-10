@@ -1,8 +1,8 @@
 'use strict'
 
-module.exports = function(request, reply) {
+module.exports = function(request, h) {
   if (request.path === '/dog') {
-    return reply('woof')
+    return 'woof'
   }
-  reply.continue()
+  return h.continue
 }

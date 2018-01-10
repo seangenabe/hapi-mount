@@ -1,5 +1,5 @@
 'use strict'
 
-module.exports = function(request, reply) {
-  reply('lol')
+module.exports = function() {
+  return 'lol'
 }

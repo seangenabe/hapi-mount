@@ -1,3 +1,3 @@
 'use strict'
 
-module.exports = (request, reply) => reply('quack')
+module.exports = () => 'quack'

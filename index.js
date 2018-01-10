@@ -1,4 +1,4 @@
-const pkg = require('../package')
+const pkg = require('./package')
 const Path = require('path')
 const req = require('require-glob-array')
 const Hoek = require('hoek')
@@ -30,17 +30,15 @@ const HAPI_EXT_POINTS = new Set([
 module.exports = {
   name: pkg.name,
   version: pkg.version,
-  async register(
-    server,
-    {
+  async register(server, opts) {
+    console.error('opts', require('util').inspect(opts, { colors: true })) // DEBUG
+    const {
       cwd = '.',
       ext = 'ext',
       methods = 'methods',
       routes = 'routes',
-      bind,
-      bindToRoot
-    }
-  ) {
+      bind
+    } = opts
     let [extArray, methodsArray, routesArray] = await Promise.all([
       getModules(cwd, ext),
       getModules(cwd, methods),
@@ -61,10 +59,7 @@ module.exports = {
     // Auto methods
     methodsArray = entityDefaults(methodsArray, {
       funcKey: 'method',
-      basenameKey: 'name',
-      postFunc(methodDefinition) {
-        methodDefinition.options = { callback: false }
-      }
+      basenameKey: 'name'
     })
 
     // Auto routes
@@ -84,9 +79,7 @@ module.exports = {
       }
     })
 
-    if (bindToRoot) {
-      server.bind(server.root.realm.settings.bind)
-    } else if (bind) {
+    if (bind) {
       server.bind(bind)
     }
 
@@ -98,13 +91,12 @@ module.exports = {
 
 function entityDefaults(
   modules,
-  { funcKey, postFunc = noop, validBasenames, basenameKey, pathFunc = noop }
+  { funcKey, validBasenames, basenameKey, pathFunc = noop }
 ) {
   return modules.map(([path, mod]) => {
     mod = [].concat(mod).map(entity => {
       if (typeof entity === 'function') {
         entity = { [funcKey]: entity }
-        postFunc(entity)
       }
       if (typeof entity !== 'object') {
         return entity

@@ -3,10 +3,10 @@
 module.exports = {
   path: '/',
   method: 'GET',
-  handler(request, reply) {
+  handler(request) {
     if (this && this.simple) {
-      return reply('hi')
+      return 'hi'
     }
-    reply('hello')
+    return 'hello'
   }
 }

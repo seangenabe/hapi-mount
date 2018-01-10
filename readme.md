@@ -14,6 +14,7 @@ Mount directories containing your routes, etc. into your hapi server
 ### Intro
 
 This module will allow you to organize your handlers as such:
+
 ```
 - server/
   - ext/
@@ -35,27 +36,36 @@ For the `routes` directory, only valid HTTP verbs in lowercase (`get.js`, `post.
 Example (just to give you an idea how modular your server will be now):
 
 ext/on-post-auth.js
+
 ```javascript
 module.exports = {
   type: 'onPostAuth',
-  method: function(request, reply) { /* ... */ }
+  method: function(request, reply) {
+    /* ... */
+  }
 }
 ```
 
 methods/get-user.js
+
 ```javascript
 module.exports = {
   name: 'getUsers',
-  method: function(next) { /* ... */ }
+  method: function(next) {
+    /* ... */
+  }
 }
 ```
 
 routes/user/get.js
+
 ```javascript
 module.exports = {
   path: '/user',
   method: 'GET',
-  handler: function(request, reply) { /* ... */ }
+  handler: function(request, reply) {
+    /* ... */
+  }
 }
 ```
 
@@ -71,7 +81,9 @@ Note: Modules with empty exports will be excluded. This is to avoid errors in de
 server.register(
   {
     register: require('hapi-mount'),
-    options: { /* cwd, routes, methods, ext */ }
+    options: {
+      /* cwd, routes, methods, ext */
+    }
   },
   options,
   callback
@@ -85,7 +97,6 @@ server.register(
 * `methods: string`: Name of the methods directory. Default: `"methods"`.
 * `ext: string`: Name of the directory for extension functions. Default: `"ext"`
 * `bind: object`: Object to bind as the context. (Plugin binds are [isolated](http://hapijs.com/api#serverbindcontext).) Optional.
-* `bindToRoot: boolean`: Bind to `server.root.realm.settings.bind` as the context. This is always the object you set with `server.bind` outside plugins, so be sure to do that first, when using this option, before registration.
 
 ### Path defaults
 
@@ -103,7 +114,7 @@ If you use the kebab case version of a valid Hapi extension point as the filenam
 
 #### Methods
 
-If the method object is a function, it will be transformed into the `method` property for the method object. `options.callback` will also default to `false` to make it possible to declare `Promise`-returning functions. (This is just a personal preference *against* callbacks.)
+If the method object is a function, it will be transformed into the `method` property for the method object. `options.callback` will also default to `false` to make it possible to declare `Promise`-returning functions. (This is just a personal preference _against_ callbacks.)
 
 If you don't specify the `name` for the method, the name will default to the camel case version of the basename of the file. For example, a file at `get-database.js` will default to `{ name: 'getDatabase' }`
 
@@ -118,5 +129,6 @@ If this behavior isn't your style, simply specify everything in the schema.
 ## See also
 
 Oops. Looks like modules of this kind have been done already. Here they are for reference:
+
 * [hapi-methods-injection](https://github.com/amgohan/hapi-methods-injection) (Not quite sure here.)
 * [hapi-router](https://github.com/bsiddiqui/hapi-router) (We definitely have more features than them now.)
