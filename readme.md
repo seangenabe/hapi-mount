@@ -40,8 +40,8 @@ ext/on-post-auth.js
 ```javascript
 module.exports = {
   type: 'onPostAuth',
-  method: function(request, reply) {
-    /* ... */
+  async method(request, h) {
+    // ...
   }
 }
 ```
@@ -51,8 +51,8 @@ methods/get-user.js
 ```javascript
 module.exports = {
   name: 'getUsers',
-  method: function(next) {
-    /* ... */
+  async method() {
+    // ...
   }
 }
 ```
@@ -63,8 +63,8 @@ routes/user/get.js
 module.exports = {
   path: '/user',
   method: 'GET',
-  handler: function(request, reply) {
-    /* ... */
+  async handler(request, h) {
+    // ...
   }
 }
 ```
@@ -74,19 +74,14 @@ Note: Modules with empty exports will be excluded. This is to avoid errors in de
 ### General usage
 
 ```javascript
-// server.connection(...)
-
-// Register *after* adding the server connections you want
-// so we can modify those connections.
-server.register(
+await server.register(
   {
-    register: require('hapi-mount'),
+    plugin: require('hapi-mount'),
     options: {
       /* cwd, routes, methods, ext */
     }
   },
-  options,
-  callback
+  options
 )
 ```
 
@@ -96,7 +91,7 @@ server.register(
 * `routes: string`: Name of the routes directory. Default: `"routes"`.
 * `methods: string`: Name of the methods directory. Default: `"methods"`.
 * `ext: string`: Name of the directory for extension functions. Default: `"ext"`
-* `bind: object`: Object to bind as the context. (Plugin binds are [isolated](http://hapijs.com/api#serverbindcontext).) Optional.
+* `bind: object`: Object to bind as the context. (Plugin binds are [isolated](https://hapijs.com/api#-serverbindcontext).) Optional.
 
 ### Path defaults
 
@@ -114,7 +109,7 @@ If you use the kebab case version of a valid Hapi extension point as the filenam
 
 #### Methods
 
-If the method object is a function, it will be transformed into the `method` property for the method object. `options.callback` will also default to `false` to make it possible to declare `Promise`-returning functions. (This is just a personal preference _against_ callbacks.)
+If the method object is a function, it will be transformed into the `method` property for the method object.
 
 If you don't specify the `name` for the method, the name will default to the camel case version of the basename of the file. For example, a file at `get-database.js` will default to `{ name: 'getDatabase' }`
 
