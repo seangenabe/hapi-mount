@@ -40,6 +40,9 @@
     "hapi": "^16.0.0",
     "tap": "^11.0.0"
   },
+  "peerDependencies": {
+    "hapi": "<=16.x"
+  },
   "nyc": {
     "sourceMaps": false,
     "instrument": false

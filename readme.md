@@ -111,6 +111,10 @@ If you don't specify the `name` for the method, the name will default to the cam
 
 If this behavior isn't your style, simply specify everything in the schema.
 
+## Versions
+
+* `<=4` - hapi v16 compatible
+
 ## See also
 
 Oops. Looks like modules of this kind have been done already. Here they are for reference:
