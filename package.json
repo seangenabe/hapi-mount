@@ -7,8 +7,7 @@
     "compile:test": "babel test/test-src.js -o test/test.js",
     "pretest": "cross-env BABEL_ENV=test npm run compile && npm run compile:test",
     "test": "tap -c test/test.js",
-    "test:babel": "babel-node test/test-src.js src/index.js",
-    "prepublish": "npm run compile"
+    "test:babel": "babel-node test/test-src.js src/index.js"
   },
   "homepage": "https://github.com/seangenabe/hapi-mount",
   "author": "Sean Genabe <seangenabe@outlook.com>",
