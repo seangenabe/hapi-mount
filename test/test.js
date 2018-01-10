@@ -1,23 +1,11 @@
-const t = require('tap')
+const test = require('ava')
 const Hapi = require('hapi')
 const req = require('require-glob-array')
 const HapiMount = require('..')
 
-t.Test.prototype.addAssert('promiseRejects', 2,
-  async function promiseRejects(fn, expectedError, message, extra) {
-    try {
-      await fn()
-      this.fail()
-    }
-    catch (err) {
-      this.throws(() => { throw err }, expectedError, message, extra)
-    }
-  }
-)
-
 let parallelTests = [
 
-  t.test("basic functionality", async t => {
+  test.test("basic functionality", async t => {
     try {
       const server = new Hapi.Server()
       server.connection()
@@ -35,7 +23,7 @@ let parallelTests = [
     }
   }),
 
-  t.test("error", async t => {
+  test.test("error", async t => {
     const server = new Hapi.Server()
     server.connection()
     try {
@@ -50,7 +38,7 @@ let parallelTests = [
     }
   }),
 
-  t.test("alternate folders + auto routes", async t => {
+  test.test("alternate folders + auto routes", async t => {
     const server = new Hapi.Server()
     server.connection()
     await server.register({
@@ -72,7 +60,7 @@ let parallelTests = [
     )
   }),
 
-  t.test("bind to object", async t => {
+  test.test("bind to object", async t => {
     let server = new Hapi.Server()
     server.connection()
     await server.register({
@@ -83,7 +71,7 @@ let parallelTests = [
     t.equals((await server.inject('/')).payload, 'hi')
   }),
 
-  t.test("bind to server.realm.settings.bind", async t => {
+  test.test("bind to server.realm.settings.bind", async t => {
     let server = new Hapi.Server()
     server.bind({ simple: true })
     server.connection()
@@ -95,7 +83,7 @@ let parallelTests = [
     t.equals((await server.inject('/')).payload, 'hi')
   }),
 
-  t.test("error for invalid modules", async t => {
+  test.test("error for invalid modules", async t => {
     let server = new Hapi.Server()
     server.connection()
     await t.promiseRejects(() => server.register({
@@ -104,7 +92,7 @@ let parallelTests = [
     }))
   }),
 
-  t.test("error for auto items with missing required properties", async t => {
+  test.test("error for auto items with missing required properties", async t => {
     let server = new Hapi.Server()
     server.connection()
     await t.promiseRejects(() => server.register({
@@ -113,7 +101,7 @@ let parallelTests = [
     }))
   }),
 
-  t.test('default cwd', async t => {
+  test.test('default cwd', async t => {
     let server = new Hapi.Server()
     server.connection()
     await server.register({
@@ -124,7 +112,7 @@ let parallelTests = [
     t.equals((await server.inject('/')).payload, 'hello')
   }),
 
-  t.test('should not override route path', async t => {
+  test.test('should not override route path', async t => {
     let server = new Hapi.Server()
     server.connection()
     await server.register({
@@ -141,7 +129,7 @@ let parallelTests = [
 
   // Run the following tests serially
 
-  await t.test('require relative', async t => {
+  await test.test('require relative', async t => {
     let origCwd = process.cwd()
     try {
       process.chdir(__dirname)
@@ -158,7 +146,7 @@ let parallelTests = [
     }
   })
 
-  await t.test("option defaults (no option object provided)", async t => {
+  await test.test("option defaults (no option object provided)", async t => {
     let origCwd = process.cwd()
     try {
       process.chdir(`${__dirname}/fixture1`)
