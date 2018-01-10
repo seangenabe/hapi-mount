@@ -3,20 +3,17 @@
   "version": "4.0.1",
   "description": "Mount directories containing your routes, etc. into your hapi server",
   "scripts": {
-    "compile": "babel src -d dist",
-    "compile:test": "babel test/test-src.js -o test/test.js",
-    "pretest": "cross-env BABEL_ENV=test npm run compile && npm run compile:test",
-    "test": "tap -c test/test.js",
-    "test:babel": "babel-node test/test-src.js src/index.js"
+    "test": "ava",
+    "nyc": "nyc ava"
   },
   "homepage": "https://github.com/seangenabe/hapi-mount",
   "author": "Sean Genabe <seangenabe@outlook.com>",
   "repository": "seangenabe/hapi-mount",
   "license": "MIT",
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=6.0.0"
   },
-  "main": "dist/index.js",
+  "main": "index.js",
   "keywords": [
     "hapi",
     "require",
@@ -29,21 +26,17 @@
     "require-glob-array": "^4.0.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.10.1",
-    "babel-plugin-istanbul": "^4.0.0",
-    "babel-plugin-transform-async-to-generator": "^6.8.0",
-    "babel-plugin-transform-es2015-destructuring": "^6.9.0",
-    "babel-plugin-transform-es2015-parameters": "^6.11.3",
-    "babel-plugin-transform-strict-mode": "^6.11.3",
+    "ava": "^0.24.0",
     "cross-env": "^3.1.0",
     "hapi": "^16.0.0",
-    "tap": "^11.0.0"
+    "nyc": "^11.4.1"
   },
   "peerDependencies": {
-    "hapi": "<=16.x"
+    "hapi": ">=17"
   },
-  "nyc": {
-    "sourceMaps": false,
-    "instrument": false
+  "ava": {
+    "files": [
+      "test/test.js"
+    ]
   }
 }
