@@ -3,6 +3,7 @@ const Path = require('path')
 const req = require('require-glob-array')
 const Hoek = require('hoek')
 const camelCase = require('lodash.camelcase')
+const { deprecate } = require('util')
 
 const HTTP_VERBS = new Set([
   'get',
@@ -26,6 +27,10 @@ const HAPI_EXT_POINTS = new Set([
   'onPreStop',
   'onPostStop'
 ])
+const bindToRootMessage = deprecate(
+  () => undefined,
+  'The option bindToRoot is deprecated. Use bindParentContext instead.'
+)
 
 module.exports = {
   name: pkg.name,
@@ -36,7 +41,9 @@ module.exports = {
       ext = 'ext',
       methods = 'methods',
       routes = 'routes',
-      bind
+      bind,
+      bindParentContext,
+      bindToRoot
     } = opts
     let [extArray, methodsArray, routesArray] = await Promise.all([
       getModules(cwd, ext),
@@ -78,7 +85,12 @@ module.exports = {
       }
     })
 
-    if (bind) {
+    if (bindToRoot || bindParentContext) {
+      if (bindToRoot) {
+        bindToRootMessage()
+      }
+      server.bind(server.realm.parent.settings.bind)
+    } else if (bind) {
       server.bind(bind)
     }
 

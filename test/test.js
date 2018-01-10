@@ -99,6 +99,17 @@ test('should not override route path', async t => {
   t.is((await server.inject('/b')).payload, 'b')
 })
 
+test('bind to root', async t => {
+  let server = new Hapi.Server()
+  server.bind({ simple: true })
+  await server.register({
+    plugin: HapiMount,
+    options: { cwd: `${__dirname}/fixture1`, bindToRoot: true }
+  })
+
+  t.is((await server.inject('/')).payload, 'hi')
+})
+
 test.serial('require relative', async t => {
   let origCwd = process.cwd()
   try {

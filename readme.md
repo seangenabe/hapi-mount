@@ -92,6 +92,7 @@ await server.register(
 * `methods: string`: Name of the methods directory. Default: `"methods"`.
 * `ext: string`: Name of the directory for extension functions. Default: `"ext"`
 * `bind: object`: Object to bind as the context. (Plugin binds are [isolated](https://hapijs.com/api#-serverbindcontext).) Optional.
+* `bindParentContext: boolean`: Bind to the context of the parent realm.
 
 ### Path defaults
 
