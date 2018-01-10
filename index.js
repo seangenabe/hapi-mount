@@ -31,7 +31,6 @@ module.exports = {
   name: pkg.name,
   version: pkg.version,
   async register(server, opts) {
-    console.error('opts', require('util').inspect(opts, { colors: true })) // DEBUG
     const {
       cwd = '.',
       ext = 'ext',
