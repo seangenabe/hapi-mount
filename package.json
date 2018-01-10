@@ -13,7 +13,7 @@
   "repository": "seangenabe/hapi-mount",
   "license": "MIT",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.9.0"
   },
   "main": "index.js",
   "keywords": [
