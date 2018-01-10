@@ -1,6 +1,6 @@
 {
   "name": "hapi-mount",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "Mount directories containing your routes, etc. into your hapi server",
   "scripts": {
     "test": "nyc ava",
