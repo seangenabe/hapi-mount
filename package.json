@@ -28,7 +28,7 @@
     "require-glob-array": "^4.0.0"
   },
   "devDependencies": {
-    "ava": "^0.24.0",
+    "ava": "^0.25.0",
     "coveralls": "^3.0.0",
     "hapi": "^17.2.0",
     "nyc": "^11.4.1",
