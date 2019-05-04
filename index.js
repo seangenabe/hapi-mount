@@ -3,6 +3,7 @@ const Path = require('path')
 const req = require('require-glob-array')
 const camelCase = require('lodash.camelcase')
 const { deprecate } = require('util')
+const flatMap = require('core-js-pure/features/array/flat-map')
 
 const HTTP_VERBS = new Set([
   'get',
@@ -129,7 +130,7 @@ function entityDefaults(
 }
 
 function getAndFlattenModules(items) {
-  return items.flatMap(([, m]) => m)
+  return flatMap(items, ([, m]) => m)
 }
 
 async function getModules(cwd, childpath, patterns) {

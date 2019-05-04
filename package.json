@@ -23,6 +23,7 @@
     "method"
   ],
   "dependencies": {
+    "core-js-pure": "^3.0.1",
     "lodash.camelcase": "^4.3.0",
     "require-glob-array": "^4.0.0"
   },
