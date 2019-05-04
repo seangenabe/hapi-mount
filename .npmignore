@@ -1,6 +1,8 @@
 node_modules/
-*.log
-*.log.*
-test/test.js
-.nyc_output
-coverage
+.vscode/
+.nyc_output/
+coverage/
+test/
+.gitattributes
+.prettier*
+.travis.yml
