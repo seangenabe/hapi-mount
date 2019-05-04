@@ -61,7 +61,7 @@ test('bind to object', async t => {
 
 test('error for invalid modules', async t => {
   const server = new Hapi.Server()
-  await t.throws(
+  await t.throwsAsync(() =>
     server.register({
       plugin: HapiMount,
       options: { cwd: `${__dirname}/fixture4` }
@@ -71,7 +71,7 @@ test('error for invalid modules', async t => {
 
 test('error for auto items with missing required properties', async t => {
   const server = new Hapi.Server()
-  await t.throws(
+  await t.throwsAsync(() =>
     server.register({
       plugin: HapiMount,
       options: { cwd: `${__dirname}/fixture5` }

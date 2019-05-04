@@ -23,15 +23,14 @@
     "method"
   ],
   "dependencies": {
-    "hoek": "^5.0.2",
     "lodash.camelcase": "^4.3.0",
     "require-glob-array": "^4.0.0"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
+    "ava": "^1.4.1",
     "coveralls": "^3.0.0",
-    "hapi": "^17.2.0",
-    "nyc": "^12.0.1",
+    "hapi": "^18.1.0",
+    "nyc": "^14.1.0",
     "prettier": "^1.10.1"
   },
   "peerDependencies": {
@@ -41,7 +40,7 @@
     "files": [
       "test/test.js"
     ],
-    "source": [
+    "sources": [
       "index.js"
     ]
   }

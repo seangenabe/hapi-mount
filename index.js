@@ -1,7 +1,6 @@
 const pkg = require('./package')
 const Path = require('path')
 const req = require('require-glob-array')
-const Hoek = require('hoek')
 const camelCase = require('lodash.camelcase')
 const { deprecate } = require('util')
 
@@ -130,7 +129,7 @@ function entityDefaults(
 }
 
 function getAndFlattenModules(items) {
-  return Hoek.flatten(items.map(([, m]) => m))
+  return items.flatMap(([, m]) => m)
 }
 
 async function getModules(cwd, childpath, patterns) {
